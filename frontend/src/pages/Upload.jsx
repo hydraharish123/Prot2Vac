@@ -1,0 +1,65 @@
+import styled from "styled-components";
+import Textarea from "../ui/Textarea";
+import Heading from "../ui/Heading";
+import Button from "../ui/Button";
+import { useSequence } from "../contexts/SequenceContext";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0rem 2.4rem 0rem;
+`;
+
+const StyledP = styled.p`
+  font-size: 1.4rem;
+`;
+
+function Upload() {
+  const navigate = useNavigate();
+  const { setSequence } = useSequence();
+  const [uploadData, setUploadData] = useState("");
+
+  function handleUpload() {
+    if (uploadData.trim()) {
+      setSequence(uploadData);
+      console.log(uploadData);
+      navigate("/predict-epitope");
+    } else {
+      toast.error("Please paste a FASTA sequence");
+    }
+  }
+  return (
+    <StyledDiv>
+      <Heading as="h2">Paste FASTA Sequence or Upload file</Heading>
+
+      <StyledP>
+        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
+        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
+        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
+        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
+        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
+        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
+        inceptos himenaeos.Iaculis massa nisl malesuada lacinia integer nunc
+        posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora
+        torquent per conubia nostra inceptos himenaeos.
+      </StyledP>
+
+      <Textarea
+        value={uploadData}
+        onChange={(e) => setUploadData(e.target.value)}
+        placeholder=">sp|P53601|A4_MACFA Amyloid-beta precursor protein OS=Macaca fascicularis OX=9541 GN=APP PE=2 SV=3
+MLPGLALLLLAAWTARALEVPTDGNAGLLAEPQIAMFCGRLNMHMNVQNGKWDSDPSGTKTCIDTKEGILQYCQEVYPELQITNVVEANQPVTIQNWCKRGRKQCKTHPHFVIPYRCLVGEFVSDALLVPDKCKFLHQERMDVCETHLHWHTVAKETCSEKSTNLHDYGMLLPCGIDKFRGVEFVCCPLAEESDNVDSADAEEDDSDVWWGGADTDYADGSEDKVVEVAEEEEVAEVEEEEADDDEDDEDGDEVEEEAEEPYEEATERTTSIATTTTTTTESVEEVVREVCSEQAETGPCRAMISRWYFDVTEGKCAPFFYGGCGGNRNNFDTEEYCMAVCGSVMSQSLRKTTREPLTRDPVKLPTTAASTPDAVDKYLETPGDENEHAHFQKAKERLEAKHRERMSQVMREWEEAERQAKNLPKADKKAVIQHFQEKVESLEQEAANERQQLVETHMARVEAMLNDRRRLALENYITALQAVPPRPRHVFNMLKKYVRAEQKDRQHTLKHFEHVRMVDPKKAAQIRSQVMTHLRVIYERMNQSLSLLYNVPAVAEEIQDEVDELLQKEQNYSDDVLANMISEPRISYGNDALMPSLTETKTTVELLPVNGEFSLDDLQPWHSFGADSVPANTENEVEPVDARPAADRGLTTRPGSGLTNIKTEEISEVKMDAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITLVMLKKKQYTSIHHGVVEVDAAVTPEERHLSKMQQNGYENPTYKFFEQMQN"
+      />
+
+      <Button size="medium" variation="primary" onClick={handleUpload}>
+        Predict Epitopes
+      </Button>
+    </StyledDiv>
+  );
+}
+
+export default Upload;

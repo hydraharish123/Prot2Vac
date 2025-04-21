@@ -12,11 +12,13 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import Select from "../ui/Select";
+import RadioGroup from "../ui/RadioGroup";
+import Button from "../ui/Button";
 
 const vaccineComponents = {
   MHCI: {
     signalPeptides: [
-      { label: "None", value: "" }, // MHC-I typically doesn't use signal peptides
+      // MHC-I typically doesn't use signal peptides
     ],
     spacers: [
       { label: "AAY spacer", value: "AAY" },
@@ -267,26 +269,45 @@ const StyledAntigenBox = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const AnitgenItem = styled.div`
-  background-color: var(--color-brand-50);
+  background-color: var(--color-grey-100);
   padding: 2rem 4rem;
 
   border-radius: 10px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
 `;
 
 function BuildmRNA() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
-  const epitope = queryParams.get("epitope");
+  const epitopes = queryParams.get("epitope");
   const type = queryParams.get("type");
   const combination = vaccineComponents[type];
   const [nodes, setNodes] = React.useState(initialNodes);
   const [edges, setEdges] = React.useState(initialEdges);
   const [spacer, setSpacer] = useState("");
-  const [adjuvant, setAdjuvant] = useState(null);
+  const [adjuvant, setAdjuvant] = useState("");
+  const [signal, setSignal] = useState("");
+  const [antigen, setAntigen] = useState("");
+
+  function construct() {
+    let antigenSequence = signal ? signal : "";
+    if (Array.isArray(epitopes)) {
+      epitopes.forEach((epitope, i) => {
+        antigenSequence += epitope;
+        if (i < epitopes.length - 1) antigenSequence += spacer; // Add spacer only between epitopes
+      });
+    } else {
+      antigenSequence += epitopes; // Single epitope, no spacer needed
+    }
+
+    if (adjuvant) antigenSequence += adjuvant;
+
+    setAntigen(antigenSequence);
+  }
 
   const onNodesChange = React.useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -329,36 +350,77 @@ function BuildmRNA() {
 
       <StyledAntigenBox>
         <AnitgenItem>
-          <h3 className="text-center text-3xl mb-4">
+          <h3 className="text-center text-3xl mb-8">
             <strong>Spacer</strong>
           </h3>
-        </AnitgenItem>
-        <AnitgenItem>
-          <h3 className="text-center text-3xl mb-4">
-            <strong>Adjuvant</strong>
-          </h3>
-          <Select
-            options={combination["adjuvants"]}
+          <RadioGroup
+            name="spacer"
+            options={combination["spacers"]}
             value={spacer}
             onChange={(e) => setSpacer(e.target.value)}
           />
         </AnitgenItem>
         <AnitgenItem>
-          <h3 className="text-center text-3xl mb-4">
-            <strong>Signal Peptide</strong>
+          <h3 className="text-center text-3xl mb-8">
+            <strong>Adjuvant</strong>
           </h3>
+          <RadioGroup
+            name="adjuvant"
+            options={combination["adjuvants"]}
+            value={adjuvant}
+            onChange={(e) => setAdjuvant(e.target.value)}
+          />
         </AnitgenItem>
         <AnitgenItem>
-          <h3 className="text-center text-3xl mb-4">
+          <h3 className="text-center text-3xl mb-8">
+            <strong>Signal Peptide</strong>
+          </h3>
+          {combination["signalPeptides"].length === 0 ? (
+            <p>No signal peptides for {type}</p>
+          ) : (
+            <RadioGroup
+              name="signal"
+              options={combination["signalPeptides"]}
+              value={signal}
+              onChange={(e) => setSignal(e.target.value)}
+            />
+          )}
+        </AnitgenItem>
+        <AnitgenItem>
+          <h3 className="text-center text-3xl mb-8">
             <strong>Epitope</strong>
           </h3>
           <div>
-            <div>
-              Selected Epitope: <strong>{epitope}</strong>
+            <div className="text-center">
+              <strong>{epitopes}</strong>
             </div>
           </div>
         </AnitgenItem>
       </StyledAntigenBox>
+
+      {antigen && (
+        <div className="text-center my-10">
+          <p>
+            <strong>{antigen}</strong>
+          </p>
+        </div>
+      )}
+
+      <div className="flex gap-4 w-full">
+        <Button
+          size="medium"
+          variation="primary"
+          onClick={() => construct()}
+          className={antigen ? "flex-1" : "w-full"}
+        >
+          Generate Antigen Sequence
+        </Button>
+        {antigen && (
+          <Button size="medium" variation="primary" className="flex-1">
+            Generate mRNA sequence
+          </Button>
+        )}
+      </div>
     </StyledDiv>
   );
 }

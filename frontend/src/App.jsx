@@ -7,6 +7,7 @@ import AppLayout from "./ui/AppLayout";
 import Upload from "./pages/Upload";
 import { SequenceProvider } from "./contexts/SequenceContext";
 import PredictEpitope from "./pages/PredictEpitope";
+import BuildmRNA from "./pages/BuildmRNA";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="home" element={<HomePage />} />
               <Route path="upload" element={<Upload />} />
               <Route path="predict-epitope" element={<PredictEpitope />} />
+              <Route path="build-mRNA" element={<BuildmRNA />} />
             </Route>
           </Routes>
         </BrowserRouter>

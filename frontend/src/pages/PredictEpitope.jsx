@@ -7,10 +7,15 @@ import Mhci_table from "../features/epitopePrediction/Mhci_table";
 import Mhcii_table from "../features/epitopePrediction/Mhcii_table";
 import Select from "../ui/Select";
 import Heading from "../ui/Heading";
+import styled from "styled-components";
 const options = [
   { value: "MHCI", label: "MHCI prediction" },
   { value: "MHCII", label: "MHCII prediction" },
 ];
+
+const StyledDiv = styled.div`
+  padding: 0rem 2.4rem 6.4rem;
+`;
 
 function PredictEpitope() {
   const { sequence } = useSequence();
@@ -87,21 +92,32 @@ function PredictEpitope() {
     }
   };
 
+  function handleDownload(data, epitope) {
+    const blob = new Blob([data], {
+      type: "text/tab-separated-values;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${epitope}_predictions.tsv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   if (!sequence) return null;
 
   return (
-    <div>
+    <StyledDiv>
       {loading ? (
         <Spinner />
       ) : error ? (
         <div style={{ color: "red" }}>Error: {error}</div>
       ) : prediction ? (
-        <div>
+        <div className="flex flex-col gap-8">
           <div className="flex justify-between mb-8 items-center">
             <Heading as="h1">Epitope Prediction</Heading>
-            <div className="text-center">
-              <Heading as="h2">{selectedTable} Predictions</Heading>
-            </div>
+
             <Select
               options={options}
               value={selectedTable}
@@ -110,13 +126,25 @@ function PredictEpitope() {
             />
           </div>
 
-          {selectedTable === "MHCI" && <Mhci_table predictionData={mhci} />}
-          {selectedTable === "MHCII" && <Mhcii_table predictionData={mhcii} />}
+          {selectedTable === "MHCI" && (
+            <Mhci_table
+              predictionData={mhci}
+              handleDownload={handleDownload}
+              prediction={prediction}
+            />
+          )}
+          {selectedTable === "MHCII" && (
+            <Mhcii_table
+              predictionData={mhcii}
+              handleDownload={handleDownload}
+              prediction={prediction}
+            />
+          )}
         </div>
       ) : (
         <p>No results available</p>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 

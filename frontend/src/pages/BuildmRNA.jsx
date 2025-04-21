@@ -1,0 +1,366 @@
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import Heading from "../ui/Heading";
+import React, { useState } from "react";
+import ReactFlow, {
+  Background,
+  Controls,
+  applyNodeChanges,
+  applyEdgeChanges,
+  Position,
+  MarkerType,
+} from "reactflow";
+import "reactflow/dist/style.css";
+import Select from "../ui/Select";
+
+const vaccineComponents = {
+  MHCI: {
+    signalPeptides: [
+      { label: "None", value: "" }, // MHC-I typically doesn't use signal peptides
+    ],
+    spacers: [
+      { label: "AAY spacer", value: "AAY" },
+      { label: "KK spacer", value: "KK" },
+    ],
+    adjuvants: [
+      { label: "PADRE", value: "AKFVAAWTLKAAA" },
+      { label: "RS09", value: "APPHALS" },
+      { label: "HBHA", value: "PEQPRPLVVGV" },
+    ],
+  },
+  MHCII: {
+    signalPeptides: [
+      {
+        label: "Tissue Plasminogen Activator (tPA)",
+        value: "MDAMKRGLCCVLLLCGAVFVSPS",
+      },
+      { label: "Interleukin-2 (IL-2)", value: "MYRMQLLSCIALSLALVTNS" },
+      { label: "GM-CSF", value: "MPSSWLLLVLALLALWGPGPG" },
+    ],
+    spacers: [
+      { label: "GPGPG spacer", value: "GPGPG" },
+      { label: "GGGS spacer", value: "GGGS" },
+      { label: "EAAAK spacer", value: "EAAAK" },
+    ],
+    adjuvants: [
+      { label: "PADRE", value: "AKFVAAWTLKAAA" },
+      { label: "RS09", value: "APPHALS" },
+      { label: "HBHA", value: "PEQPRPLVVGV" },
+      { label: "L7/L12 Ribosomal Protein", value: "MIKKIAPQFYIKKAN" },
+      { label: "HBV core antigen", value: "STLPETTVVRRRDRGR" },
+    ],
+  },
+};
+const initialNodes = [
+  {
+    id: "signal",
+    data: { label: "Signal" },
+    position: { x: 0, y: 0 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "adjuvant",
+    data: { label: "Adjuvant" },
+    position: { x: 0, y: 100 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "spacer",
+    data: { label: "Spacer" },
+    position: { x: 0, y: 200 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "epitope",
+    data: { label: "Epitope" },
+    position: { x: 0, y: 300 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+
+  {
+    id: "antigen",
+    data: { label: "Antigen" },
+    position: { x: 200, y: 150 },
+    draggable: true,
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+
+  {
+    id: "cap",
+    data: { label: "Cap" },
+    position: { x: 400, y: 40 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "utr",
+    data: { label: "5'UTR" },
+    position: { x: 400, y: 100 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "kozak",
+    data: { label: "Kozak" },
+    position: { x: 400, y: 190 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "stop",
+    data: { label: "Stop Codon" },
+    position: { x: 400, y: 260 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+  {
+    id: "polyA",
+    data: { label: "PolyA" },
+    position: { x: 400, y: 330 },
+    draggable: true,
+    sourcePosition: Position.Right,
+  },
+
+  {
+    id: "translated",
+    data: { label: "Secondary Transcript" },
+    position: { x: 600, y: 150 },
+    draggable: true,
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+  {
+    id: "mrna",
+    data: { label: "mRNA" },
+    position: { x: 800, y: 150 },
+    draggable: true,
+    targetPosition: Position.Left,
+  },
+];
+
+const initialEdges = [
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e1",
+    source: "signal",
+    target: "antigen",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e2",
+    source: "adjuvant",
+    target: "antigen",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e3",
+    source: "spacer",
+    target: "antigen",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e4",
+    source: "epitope",
+    target: "antigen",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e5",
+    source: "antigen",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e6",
+    source: "cap",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e7",
+    source: "utr",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e8",
+    source: "kozak",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e9",
+    source: "stop",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e10",
+    source: "polyA",
+    target: "translated",
+  },
+  {
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
+      color: "black",
+    },
+    id: "e11",
+    source: "translated",
+    target: "mrna",
+  },
+];
+
+const StyledDiv = styled.div`
+  padding: 0rem 2.4rem 6.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const StyledAntigenBox = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+`;
+
+const AnitgenItem = styled.div`
+  background-color: var(--color-brand-50);
+  padding: 2rem 4rem;
+
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+`;
+
+function BuildmRNA() {
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const epitope = queryParams.get("epitope");
+  const type = queryParams.get("type");
+  const combination = vaccineComponents[type];
+  const [nodes, setNodes] = React.useState(initialNodes);
+  const [edges, setEdges] = React.useState(initialEdges);
+  const [spacer, setSpacer] = useState("");
+  const [adjuvant, setAdjuvant] = useState(null);
+
+  const onNodesChange = React.useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+  const onEdgesChange = React.useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    []
+  );
+
+  return (
+    <StyledDiv>
+      <Heading as="h1" className="text-center">
+        Construct mRNA
+      </Heading>
+      <div style={{ width: "100%", height: "500px" }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          fitView
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
+        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
+        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
+        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
+        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
+        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
+        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
+        elit.Lorem ipsum dolor sit amet consectetur adipiscing elit.
+      </div>
+
+      <Heading as="h2">Construct Antigen Sequence</Heading>
+
+      <StyledAntigenBox>
+        <AnitgenItem>
+          <h3 className="text-center text-3xl mb-4">
+            <strong>Spacer</strong>
+          </h3>
+        </AnitgenItem>
+        <AnitgenItem>
+          <h3 className="text-center text-3xl mb-4">
+            <strong>Adjuvant</strong>
+          </h3>
+          <Select
+            options={combination["adjuvants"]}
+            value={spacer}
+            onChange={(e) => setSpacer(e.target.value)}
+          />
+        </AnitgenItem>
+        <AnitgenItem>
+          <h3 className="text-center text-3xl mb-4">
+            <strong>Signal Peptide</strong>
+          </h3>
+        </AnitgenItem>
+        <AnitgenItem>
+          <h3 className="text-center text-3xl mb-4">
+            <strong>Epitope</strong>
+          </h3>
+          <div>
+            <div>
+              Selected Epitope: <strong>{epitope}</strong>
+            </div>
+          </div>
+        </AnitgenItem>
+      </StyledAntigenBox>
+    </StyledDiv>
+  );
+}
+
+export default BuildmRNA;

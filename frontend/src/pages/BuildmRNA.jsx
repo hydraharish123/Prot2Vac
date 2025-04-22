@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Heading from "../ui/Heading";
 import React, { useState } from "react";
@@ -14,6 +14,8 @@ import "reactflow/dist/style.css";
 import Select from "../ui/Select";
 import RadioGroup from "../ui/RadioGroup";
 import Button from "../ui/Button";
+import { useMRNASequence } from "../contexts/MRNAsequenceContext";
+import toast from "react-hot-toast";
 
 const vaccineComponents = {
   MHCI: {
@@ -292,6 +294,18 @@ function BuildmRNA() {
   const [adjuvant, setAdjuvant] = useState("");
   const [signal, setSignal] = useState("");
   const [antigen, setAntigen] = useState("");
+  const { setMRNAsequence } = useMRNASequence();
+  const navigate = useNavigate();
+
+  function handleSubmit(seq) {
+    if (seq) {
+      console.log(`Antigen Sequence ${seq}`);
+      setMRNAsequence(seq);
+      navigate("/results");
+    } else {
+      toast.error("Error in building mRNA");
+    }
+  }
 
   function construct() {
     let antigenSequence = signal ? signal : "";
@@ -416,7 +430,12 @@ function BuildmRNA() {
           Generate Antigen Sequence
         </Button>
         {antigen && (
-          <Button size="medium" variation="primary" className="flex-1">
+          <Button
+            size="medium"
+            variation="primary"
+            className="flex-1"
+            onClick={() => handleSubmit(antigen)}
+          >
             Generate mRNA sequence
           </Button>
         )}

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Heading from "../ui/Heading";
-import React, { useState } from "react";
+import React from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -362,14 +362,13 @@ function BuildmRNA() {
         </ReactFlow>
       </div>
       <div>
-        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
-        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
-        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
-        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
-        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
-        elit.Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        On this page, you'll use the epitope sequence along with your selected
+        adjuvants, spacers, and signal peptides to create the final antigen
+        sequence. You can choose from a variety of adjuvants and spacers to
+        enhance the immune response, while the signal peptide helps guide the
+        antigen into the appropriate cellular compartments. Once these
+        components are selected, the platform will generate the antigen
+        sequence, which is a crucial step in the mRNA vaccine design process.
       </div>
 
       <Heading as="h2">Construct Antigen Sequence</Heading>

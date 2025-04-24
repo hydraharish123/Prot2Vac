@@ -9,6 +9,8 @@ import ReactFlow, {
   applyEdgeChanges,
   Position,
   MarkerType,
+  Background,
+  Controls,
 } from "reactflow";
 import "reactflow/dist/style.css";
 
@@ -17,9 +19,7 @@ const StyledDiv = styled.div`
   flex-direction: column;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  gap: 2rem;
-
-  text-align: center;
+  gap: 1.5rem;
 `;
 
 const initialNodes = [
@@ -135,37 +135,45 @@ function HomePage() {
   const navigate = useNavigate();
   return (
     <StyledDiv>
-      <Heading as="h1">An automated pipeline to design mRNA vaccine</Heading>
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
-        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
-        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
-        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
-        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
-        elit.Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-        faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-        pretium tellus duis convallis. Tempus leo eu aenean sed diam urna
-        tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-        Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit
-        semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
-        nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur
-        adipiscing elit.dswefffffffffffffwefwf pretium tellus duis convallis.
-        Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla
-        lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia
-        integer nunc posuere. Ut hendrerit semper vel class aptent taciti
-        sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-        Lorem ipsum dolor sit amet consectetur. Ut hendrerit semper vel class
-        aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos
-        himenaeos. Lorem ipsum dolor sit amet consectetur. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur
+      <Heading as="h1" className="text-center">
+        An automated pipeline to design mRNA vaccine
+      </Heading>
+      <div class="max-w-screen-2xl mx-auto p-6">
+        <p className="mb-4">
+          Messenger RNA (mRNA) vaccines have revolutionized modern immunization
+          strategies by providing a fast, flexible, and highly effective
+          approach to disease prevention. Unlike traditional vaccines, which
+          often rely on weakened or inactivated pathogens, mRNA vaccines work by
+          delivering synthetic messenger RNA that encodes a viral antigen,
+          prompting the body’s immune system to recognize and respond to the
+          real pathogen. Their rapid development cycle and scalability have made
+          them invaluable tools during pandemics and emerging infectious disease
+          outbreaks.
+        </p>
+
+        <p>
+          Prot2Vac is a web-based platform builds on this innovation by offering
+          a fully automated pipeline for mRNA vaccine design. Starting with a
+          simple protein, the tools predicts epitopes using a widely used
+          database, IEDB. Next, the tool performs reverse translation,
+          species-specific codon optimization, and modular antigen construction.
+          It then appends key mRNA regulatory elements such as the 5′ cap, Kozak
+          sequence, untranslated regions (UTRs), and a poly(A) tail. To ensure
+          structural integrity and stability, the platform runs RNAfold to
+          predict secondary structure, compute the minimum free energy (MFE),
+          and generate a visual representation of the mRNA molecule. Users can
+          analyze GC content, view the full construct, and download both the
+          final sequence and a detailed report. This application simplifies
+          complex bioinformatics processes into an intuitive workflow, making it
+          an essential resource for researchers, educators, and developers
+          involved in vaccine design and synthetic biology.
+        </p>
       </div>
+
       <div
         style={{
           width: "100%",
-          height: "250px",
+          height: "225px",
           backgroundColor: "var(--color-grey-50)",
           boxShadow: "var(--shadow-sm)",
         }}
@@ -176,9 +184,11 @@ function HomePage() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           fitView
-        />
+        >
+          <Background />
+        </ReactFlow>
       </div>
-      <div>
+      <div className="text-center">
         <Button
           size="medium"
           variation="primary"

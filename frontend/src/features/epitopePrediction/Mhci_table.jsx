@@ -9,14 +9,16 @@ function Mhci_table({ predictionData, handleDownload, prediction }) {
   return (
     <div>
       <p className="mb-8">
-        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
-        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
-        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
-        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
-        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
-        elit.Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        The MHC-I epitope prediction is performed using the netmhcpan-4.0
+        method, which identifies potential peptide sequences from your provided
+        protein sequence that are likely to bind to specific MHC-I molecules.
+        The prediction focuses on a particular MHC-I allele (e.g., HLA-A*02:01),
+        which represents a common version of MHC-I found in most populations.
+        The length of the peptide fragments analyzed is typically set to 9 amino
+        acids, as this is the most common size for peptides that fit into the
+        MHC-I binding groove. These parameters together help identify the
+        epitopes that may trigger an immune response, a key step in vaccine and
+        therapeutic design.
         <a
           className="text-blue-800 cursor-pointer underline"
           onClick={(e) => {

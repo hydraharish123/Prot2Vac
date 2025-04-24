@@ -9,14 +9,16 @@ function Mhcii_table({ predictionData, handleDownload, prediction }) {
   return (
     <div>
       <p className="mb-8">
-        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
-        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
-        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
-        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
-        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
-        elit.Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        The MHC-II epitope prediction is performed using the nn_align method,
+        which is designed to identify peptide sequences from your provided
+        protein sequence that are likely to bind to MHC-II molecules. The
+        prediction is based on a specific MHC-II allele, such as HLA-DRB1*07:01,
+        which represents a common version of MHC-II found in certain
+        populations. The peptides predicted by this method are typically around
+        15 amino acids in length, as this is the most common size for MHC-II
+        binding peptides. These parameters help identify the regions of the
+        protein that may be presented by MHC-II molecules to trigger immune
+        responses, aiding in vaccine and therapeutic design.
         <a
           className="text-blue-800 cursor-pointer underline"
           onClick={(e) => {

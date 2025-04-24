@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 0rem 2.4rem 0rem;
 `;
 
@@ -37,15 +37,11 @@ function Upload() {
       <Heading as="h2">Paste FASTA Sequence or Upload file</Heading>
 
       <StyledP>
-        Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus
-        ex sapien vitae pellentesque sem placerat. In id cursus mi pretium
-        tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.
-        Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis
-        massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper
-        vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra
-        inceptos himenaeos.Iaculis massa nisl malesuada lacinia integer nunc
-        posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora
-        torquent per conubia nostra inceptos himenaeos.
+        Our platform supports the upload of FASTA files for sequence analysis,
+        allowing you to perform tasks such as epitope prediction, codon
+        optimization, and mRNA vaccine design. To get started, either paste your
+        FASTA sequence directly into the text box below or upload a FASTA file
+        from your computer.
       </StyledP>
 
       <Textarea

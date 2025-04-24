@@ -231,6 +231,16 @@ function Results() {
               Download Report
             </Button>
           </div>
+          <div>
+            <Button
+              onClick={() => navigate("/")}
+              size="medium"
+              variation="primary"
+              className="w-full"
+            >
+              Back to Homepage
+            </Button>
+          </div>
         </div>
       ) : (
         <p>No data available.</p>

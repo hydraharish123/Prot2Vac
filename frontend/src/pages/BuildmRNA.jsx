@@ -16,6 +16,7 @@ import RadioGroup from "../ui/RadioGroup";
 import Button from "../ui/Button";
 import { useMRNASequence } from "../contexts/MRNAsequenceContext";
 import toast from "react-hot-toast";
+import { useMRNAfeatures } from "../contexts/MRNAfeaturesContext";
 
 const vaccineComponents = {
   MHCI: {
@@ -288,12 +289,21 @@ function BuildmRNA() {
   const epitopes = queryParams.get("epitope");
   const type = queryParams.get("type");
   const combination = vaccineComponents[type];
+  const {
+    spacer,
+    setSpacer,
+    adjuvant,
+    setAdjuvant,
+    signal,
+    setSignal,
+    antigen,
+    setAntigen,
+    setEpitopeSeq,
+    setEpitopeType,
+  } = useMRNAfeatures();
   const [nodes, setNodes] = React.useState(initialNodes);
   const [edges, setEdges] = React.useState(initialEdges);
-  const [spacer, setSpacer] = useState("");
-  const [adjuvant, setAdjuvant] = useState("");
-  const [signal, setSignal] = useState("");
-  const [antigen, setAntigen] = useState("");
+
   const { setMRNAsequence } = useMRNASequence();
   const navigate = useNavigate();
 
@@ -301,6 +311,8 @@ function BuildmRNA() {
     if (seq) {
       console.log(`Antigen Sequence ${seq}`);
       setMRNAsequence(seq);
+      setEpitopeSeq(epitopes);
+      setEpitopeType(type);
       navigate("/results");
     } else {
       toast.error("Error in building mRNA");

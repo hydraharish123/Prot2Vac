@@ -10,27 +10,30 @@ import PredictEpitope from "./pages/PredictEpitope";
 import BuildmRNA from "./pages/BuildmRNA";
 import { MRNAsequenceProvider } from "./contexts/MRNAsequenceContext";
 import Results from "./pages/Results";
+import { MRNAfeaturesProvider } from "./contexts/MRNAfeaturesContext";
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <MRNAsequenceProvider>
-        <SequenceProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<AppLayout />}>
-                <Route index element={<Navigate replace to="home" />} />
-                <Route path="home" element={<HomePage />} />
-                <Route path="upload" element={<Upload />} />
-                <Route path="predict-epitope" element={<PredictEpitope />} />
-                <Route path="build-mRNA" element={<BuildmRNA />} />
-                <Route path="results" element={<Results />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </SequenceProvider>
-      </MRNAsequenceProvider>
+      <MRNAfeaturesProvider>
+        <MRNAsequenceProvider>
+          <SequenceProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route element={<AppLayout />}>
+                  <Route index element={<Navigate replace to="home" />} />
+                  <Route path="home" element={<HomePage />} />
+                  <Route path="upload" element={<Upload />} />
+                  <Route path="predict-epitope" element={<PredictEpitope />} />
+                  <Route path="build-mRNA" element={<BuildmRNA />} />
+                  <Route path="results" element={<Results />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </SequenceProvider>
+        </MRNAsequenceProvider>
+      </MRNAfeaturesProvider>
 
       <Toaster
         position="top-center"

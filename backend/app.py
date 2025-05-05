@@ -49,8 +49,8 @@ def reverse_translate_protein(seq):
             dna_codon = rna_codon.replace("U", "T")
             aa = standard_table.forward_table.get(rna_codon, "*")
             codon_usage_table[aa][dna_codon] = float(freq)
-    protein_seq = seq
-    initial_dna = reverse_translate(protein_seq)
+
+    initial_dna = reverse_translate(seq)  
     problem = DnaOptimizationProblem(
         sequence=initial_dna,
         constraints=[],
@@ -63,10 +63,10 @@ def reverse_translate_protein(seq):
 
 def addMRNAelements(orf):
     cap = "m7G"
-    fiveUTR = "GCCACCATGG"
-    kozakSequence = "GCCACCATGG"
-    threeUTR = "AGUAGUAGUAG"
-    polyATail = "AAAAAAAAAA"
+    fiveUTR = "GGGAAAUUUCUUAUUGCAGCCGCCAC"
+    kozakSequence = "GCCACCAUGG"
+    threeUTR = "UUAUUUUAUUAAGCUAUAAA"
+    polyATail = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     stopCodon = "UAA"
     final_rna = ""
     final_rna += cap + fiveUTR + kozakSequence + orf + stopCodon + threeUTR + polyATail

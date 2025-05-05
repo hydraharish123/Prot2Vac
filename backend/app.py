@@ -63,10 +63,10 @@ def reverse_translate_protein(seq):
 
 def addMRNAelements(orf):
     cap = "m7G"
-    fiveUTR = "GGGAAAUUUCUUAUUGCAGCCGCCAC"
-    kozakSequence = "GCCACCAUGG"
-    threeUTR = "UUAUUUUAUUAAGCUAUAAA"
-    polyATail = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    fiveUTR = "GCCACCATGG"
+    kozakSequence = "GCCACCATGG"
+    threeUTR = "AGUAGUAGUAG"
+    polyATail = "AAAAAAAAAA"
     stopCodon = "UAA"
     final_rna = ""
     final_rna += cap + fiveUTR + kozakSequence + orf + stopCodon + threeUTR + polyATail

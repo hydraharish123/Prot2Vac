@@ -4,13 +4,27 @@
 ![Issues](https://img.shields.io/github/issues/hydraharish123/prot2vac)
 ![License](https://img.shields.io/github/license/hydraharish123/prot2vac)
 
-**Prot2Vac** is an intelligent, end-to-end pipeline for designing personalized mRNA vaccines from any human protein sequence. It integrates advanced epitope prediction, codon optimization, and RNA secondary structure modeling to generate a complete, translatable mRNA vaccine candidate with key regulatory and immunological elements.
 
 ## Introduction
 
-**Prot2Vac** bridges the gap between *in silico* immunology and synthetic vaccine development. Starting from a raw human protein sequence, it predicts immunodominant epitopes, constructs an mRNA sequence with optional signal peptides, spacers, and adjuvants, and outputs a final vaccine-ready transcript complete with UTRs, poly(A) tail, and secondary structure.
-
-Built for rapid prototyping, Prot2Vac leverages trusted tools like IEDB’s API, Kazusa codon usage tables, and RNAfold — making it a powerful tool for vaccine researchers and developers.
+Prot2Vac is a web-based platform builds on this innovation by offering
+          a fully automated pipeline for mRNA vaccine design. Starting with a
+          simple protein, the tools predicts epitopes using a widely used
+          database, IEDB. Next, the tool performs reverse translation,
+          species-specific codon optimization, and modular antigen construction.
+          It then appends key mRNA regulatory elements such as the 5′ cap, Kozak
+          sequence, untranslated regions (UTRs), and a poly(A) tail. To ensure
+          structural integrity and stability, the platform runs RNAfold to
+          predict secondary structure, compute the minimum free energy (MFE),
+          and generate a visual representation of the mRNA molecule. 
+          
+          
+Users can
+          analyze GC content, view the full construct, and download both the
+          final sequence and a detailed report. This application simplifies
+          complex bioinformatics processes into an intuitive workflow, making it
+          an essential resource for researchers, educators, and developers
+          involved in vaccine design and synthetic biology.
 
 ## Key Features
 
@@ -25,23 +39,17 @@ Built for rapid prototyping, Prot2Vac leverages trusted tools like IEDB’s API,
 
 ## Pipeline Overview
 
+![Flowchar](figures/flowchart.png)
 
 
 
 
 ## 🖼️ Visuals 
 
-1. **Prot2Vac Architecture**  
-   High-level pipeline from protein to mRNA vaccine.
+![Epitope predition](figures/epitope.png)
+![mRNA components](figures/mrna.png)
 
-2. **Epitope Prediction Output**  
-   Ranked MHC-I / MHC-II epitope table with IC50 and percentile.
 
-3. **mRNA Construct Layout**  
-   Labeled schematic of full mRNA transcript: cap, UTRs, spacers, epitopes, etc.
-
-4. **RNA Secondary Structure**  
-   Dot-bracket plot and folding energy.
 
 ## Technologies Used
 

@@ -46,8 +46,8 @@ Users can
 
 ## 🖼️ Visuals 
 
-![Epitope predition](figures/epitope.png)
-![mRNA components](figures/mrna.png)
+![mRNA components flowchart](figures/mRNA_building_pipeline.png)
+![mRNA components](figures/Antigen_Construction.png)
 
 
 

@@ -26,6 +26,11 @@ Users can
           an essential resource for researchers, educators, and developers
           involved in vaccine design and synthetic biology.
 
+## Pipeline Overview
+
+![Flowchart](figures/flowchart.png)
+![Overview](figures/overview.png)
+
 ## Key Features
 
 - ✅ Predicts **MHC-I** and **MHC-II** epitopes using **pretrained IEDB deep learning models**  
@@ -37,9 +42,7 @@ Users can
 - ✅ Predicts **mRNA secondary structure** and **MFE** via RNAfold  
 - ✅ Outputs **full sequence summary**, dot-bracket notation, and structural visualization  
 
-## Pipeline Overview
 
-![Flowchar](figures/flowchart.png)
 
 
 
